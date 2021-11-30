@@ -18,6 +18,12 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Cart.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Cart.c" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -138,23 +144,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\scExperess\scExperess\Cart.c" />
-    <ClCompile Include="..\..\scExperess\scExperess\Main.c" />
-    <ClCompile Include="..\..\scExperess\scExperess\menu.c" />
-    <ClCompile Include="..\..\scExperess\scExperess\Orders.c" />
-    <ClCompile Include="..\..\scExperess\scExperess\Product.c" />
-    <ClCompile Include="..\..\scExperess\scExperess\register.c" />
-    <ClCompile Include="..\..\scExperess\scExperess\searchProduct.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\scExperess\scExperess\Cart.h" />
-    <ClInclude Include="..\..\scExperess\scExperess\menu.h" />
-    <ClInclude Include="..\..\scExperess\scExperess\Orders.h" />
-    <ClInclude Include="..\..\scExperess\scExperess\Product.h" />
-    <ClInclude Include="..\..\scExperess\scExperess\register.h" />
-    <ClInclude Include="..\..\scExperess\scExperess\searchProduct.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
