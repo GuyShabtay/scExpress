@@ -78,7 +78,7 @@ void Low_to_high(Product* list, int size)
 
     if (size == 0)
     {
-        printf("eror");
+        printf("Error! currently there are no products in the store");
         return;
     }
 

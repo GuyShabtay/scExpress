@@ -44,11 +44,12 @@ Client* ClientRegister(Client* list, int* size)
     printf("please enter your Id: ");
     do {
         scanf("%d", &id);
-        if (id < 100000000 || id > 999999999)
+        flag =1;
+        /*if (id < 100000000 || id > 999999999)
         {
             printf("Id must be 9 digits. please tery again ");
             flag = 0;
-        }
+        }*/
 
     } while (flag == 0);
 
@@ -58,11 +59,12 @@ Client* ClientRegister(Client* list, int* size)
     flag = 1;
     do {
         scanf("%d", &password);
-        if (password < 10000 || password > 99999)
+        flag = 1;
+       /* if (password < 10000 || password > 99999)
         {
             printf("Password must be 5 digits. please tery again ");
             flag = 0;
-        }
+        }*/
     } while (flag == 0);
     clubMember = 'n';
     status = 'y';
@@ -349,14 +351,16 @@ Manager* ManagerRegister(Manager* list, int* size)
     gets(userName);
     printf("please enter your Id: ");
     do {
+        flag = 1;
         scanf("%d", &id);
+        /*
         if (id < 100000000 || id > 999999999)
         {
             printf("Id must be 9 digits. please try again\n");
             flag = 0;
         }
         else
-            flag = 1;
+            flag = 1;*/
 
     } while (flag == 0);
 
@@ -364,14 +368,15 @@ Manager* ManagerRegister(Manager* list, int* size)
     flag = 1;
     do {
         scanf("%d", &password);
-        if (password < 10000 || password > 99999)
+        flag = 1;
+        /*if (password < 10000 || password > 99999)
         {
             printf("Password must be 5 digits. please try again ");
             flag = 0;
 
         }
         else
-            flag = 1;
+            flag = 1;*/
     } while (flag == 0);
 
     list = Add_Manager(list, size, userName, id, password);
