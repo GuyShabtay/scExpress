@@ -247,33 +247,42 @@ void PrintfProfit(int* pTotalPrice)
 
 float ChangeStatus(orders* Allorders, int* size, Product* plist, int psize, int sn)
 {
-	int i, flag = 1;
+	int i, flag = 1,option;
 	float tp = 0;
-	char YN;//Yes and No to approve or cancel
+	//char YN;//Yes and No to approve or cancel
 	//puts("Please enter the customer's id: ");
-	getchar();
+	//getchar();
 	for (i = 0; i < *size; i++)
 	{
 		if (Allorders[i].serial == sn)
 		{
 			do {
-				printf("You wish to confirm the order?(Y/N)\n");
-				YN = getchar();
-				if (YN == 'Y' || YN == 'y')
+					printf("Please choose one of the following options:\n Press\n");
+					printf("1- Approve the order\n");
+					printf("2- Cancel the order\n");
+					printf("3- Back\n");
+					scanf("%d", &option);
+
+					
+				if (option==1)
 				{
 					Allorders[i].status = 'Y';
 					tp = Allorders[i].tp;
 					flag = 0;
 				}
-				else if (YN == 'N' || YN == 'n')
+				else if (option==2)
 				{
 					Allorders[i].status = 'N';
 					UpdateStock(plist, psize, Allorders[i]);
 					tp = 0;
 					flag = 0;
 				}
+				else if (option == 3)
+				{
+					flag = 0;
+				}
 				else
-					printf("wrong input, try again\n");
+					printf("wrong input, please try again\n");
 			} while (flag);
 			orderHistory(Allorders[i]);
 			
@@ -282,7 +291,7 @@ float ChangeStatus(orders* Allorders, int* size, Product* plist, int psize, int 
 		}
 	}
 	if (flag)
-		printf("Order can't be found\n");
+		printf("Order can not be found\n");
 	return tp;
 }
 
