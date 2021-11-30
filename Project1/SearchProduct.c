@@ -16,9 +16,9 @@ void Name_search(Product* list, int size, char* name)
         if (strcmp(list[i].name, name) == 0)
         {
             x++;
-            printf("\n\n");
+            printf("\n");
             Print_Product(list[i]);
-            printf("\n\n");
+            printf("\n");
         }
     }
     if (x == 0)
@@ -40,9 +40,9 @@ void Serial_num_search(Product* list, int size, int num)
     {
         if (list[i].sn == num)
         {
-            printf("\n\n");
+            printf("\n");
             Print_Product(list[i]);
-            printf("\n\n");
+            printf("\n");
         }
     }
 }
@@ -74,60 +74,52 @@ void Website_ranking(int* total, int* count)
 
 void Low_to_high(Product* list, int size)
 {
-    int i, temp = 0, j;
+    int count;
+    int* lth = (int*)malloc(size * sizeof(int));//lth means low to high
+    
+    for (int i = 0; i < size; i++)
+        lth[i] = i;
+   
+    if (!size)
+        printf("Error! currently there are no products in the store\n");
 
-    if (size == 0)
+    for (int i = 0; i < size; i++) 
     {
-        printf("Error! currently there are no products in the store");
-        return;
-    }
-
-
-    for (i = 0; i < size - 1; i++)
-    {
-        for (j = 0; j < size - 1; j++)
+        count = 0;
+        for (int j = 0; j < size; j++) 
         {
-            if (list[j].price > list[j + 1].price)
-            {
-                temp = list[j].price;
-                list[j].price = list[j + 1].price;
-                list[j + 1].price = temp;
-            }
-        }
+            if (list[i].price > list[j].price)
+                count++;
+            
+        } 
+        lth[count] = i;
     }
-    for (i = 0; i < size; i++)
-    {
-        Print_Product(list[i]);
-    }
+    for (int i = 0; i < size; i++)
+        Print_Product(list[lth[i]]);
 }
+
 void Select_cat(Product* list, int size)
 {
     int x = 0;
     char* cat, str[50];
-    printf("Please select the category name: ");
+    printf("Please select a category: ");
     getchar();
     gets(str);
-    cat = (char*)malloc((strlen(str) + 1) * sizeof(char));
-    if (cat == NULL)
-    {
-        printf("eror\n");
-        return;
-    }
 
     for (int i = 0; i < size; i++)
     {
-        if (strcmp(list[i].category, cat))
+        if (!strcmp(list[i].category, str))
         {
-            printf("\n\n");
+            printf("\n");
             Print_Product(list[i]);
-            printf("\n\n");
+            printf("\n");
             x++;
         }
 
     }
     if (x == 0)
     {
-        printf("This category does not exist\n");
+        printf("Category not exist\n");
     }
 
 }
