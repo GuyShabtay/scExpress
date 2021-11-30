@@ -238,7 +238,7 @@ void PrintfProfit(int* pTotalPrice)
 
 }
 
-float ChangeStatus(orders* Allorders, int* size, int sn)
+void ChangeStatus(orders* Allorders, int* size, int sn)
 {
 	int i, flag = 1;
 	float tp = 0;
@@ -264,14 +264,14 @@ float ChangeStatus(orders* Allorders, int* size, int sn)
 				else
 					printf("wrong input, try again\n");
 			} while (flag);
-			tp = orderHistory(Allorders[i].id, Allorders, Allorders[i].size, sn);
+			orderHistory(Allorders[i].id, Allorders, Allorders[i].size, sn);
 			Allorders = Remove_Order(Allorders, size, sn);
 			i = *size;//exit the loop
 		}
 	}
 	if (flag)
 		printf("Order can't be found\n");
-	return tp;
+
 }
 
 //status should get if the order is approved or not 
@@ -281,7 +281,7 @@ float ChangeStatus(orders* Allorders, int* size, int sn)
 /*----> The user's orders history*/
 //sn is the serial number of the order 
 //sn is the serial number of the order 
-float orderHistory(int id, ProductFile* order, int items, int sn)
+void orderHistory(int id, ProductFile* order, int items, int sn)
 {
 	FILE* HisOr;
 	FILE* ManagerHistory;
@@ -303,7 +303,7 @@ float orderHistory(int id, ProductFile* order, int items, int sn)
 		exit(1);
 	}
 
-	fprintf(HisOr, "Product:,Seiral:,Amount:,Price:\n");
+	fprintf(HisOr, "Product: Seiral: Amount:,Price:\n");
 	fprintf(ManagerHistory, "ORDER:  %d\n", sn);
 	fprintf(ManagerHistory, "Pro:  Ser:  Amo:  Price:\n");
 	for (i = 0; i < items; i++)
