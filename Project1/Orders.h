@@ -6,7 +6,6 @@ typedef struct
 	int sn;
 	int amount;
 	float price;
-
 }ProductFile;
 
 typedef struct
@@ -16,6 +15,7 @@ typedef struct
 	int serial;
 	char status;
 	int size;
+	float tp;
 	ProductFile* items;
 
 }orders;
@@ -28,7 +28,7 @@ orders* Remove_Order(orders* list, int* size, int orderSN);
 int DailyProfit(float* pTotalPrice, float tp);
 void PrintfProfit(int* pTotalPrice);
 int Get_New_Order_SN();
-orders MakeOrder(ProductFile* listPro, int sizep, int orderSN, char* username, int id, char status);
+orders MakeOrder(ProductFile* listPro, int sizep, int orderSN, char* username, int id, char status, float tp);
 void ViewOrder();
 float ChangeStatus(orders* Allorders, int* size, int sn);
 void orderHistory(int id, ProductFile* order, int items, int sn);
