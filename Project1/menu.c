@@ -163,12 +163,12 @@ void ManagerLoop(float* profit, Manager m)
             Update_Price(products, products_size, sn);
             break;
         case 4:
-            ViewOrder();
+            ViewAllOrders();
             break;
         case 5:
             printf("Enter serial number: ");
             scanf("%d", &sn);
-            (*profit) += ChangeStatus(Orders, &Orders_size, sn);
+            (*profit) += ChangeStatus(Orders, &Orders_size, products, products_size, sn);
             break;
         case 6:
             Get_Rating_vars(&tr, &rcount);
@@ -244,7 +244,7 @@ void ClientLoop(Client c)
         switch (option)
         {//act accordingly:
         case 1:
-            ViewOrder();
+            ViewPersonalOrders(c.id);
             //activate the functions that resposible for it
             break;//end of this iteration
         case 2:
@@ -298,7 +298,11 @@ void ClientLoop(Client c)
                 {
                     pf = Checkout(products, products_size, cart, cart_size);
                     Orders = Add_Order(Orders, &Orders_size, MakeOrder(pf, cart_size, Get_New_Order_SN(), c.name, c.id, 'w', cart.tp));
-                    //pf=NULL;cart=null;cart_size=0;
+                    pf = NULL;
+                    cart.sn = NULL;
+                    cart.amount = NULL;
+                    cart.tp = 0.0;
+                    cart_size = 0;
                     flag = 0;
                 }
                 else if (option == 3)

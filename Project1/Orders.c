@@ -115,8 +115,10 @@ orders* Set_All_Waiting_Orders(orders* list, int size)
 	for (int i = 0; i < size; i++)
 	{
 		fprintf(fw, "%s,%d,%d,%c,%d,%f,", list[i].username, list[i].id, list[i].serial, list[i].status, list[i].size, list[i].tp);
-		for (int j = 0; j < list[i].size; i++)//write items list
-			fprintf(fw, "%s,%d,%d,%f\n", list[i].items->name, list[i].items->sn, list[i].items->amount, list[i].items->price);
+		for (int j = 0; j < list[i].size; j++)//write items list
+		{
+			fprintf(fw, "%s,%d,%d,%f,", list[i].items->name, list[i].items->sn, list[i].items->amount, list[i].items->price);
+		}
 	}
 	fclose(fw);//close file
 }
@@ -243,12 +245,13 @@ void PrintfProfit(int* pTotalPrice)
 
 }
 
-float ChangeStatus(orders* Allorders, int* size, int sn)
+float ChangeStatus(orders* Allorders, int* size, Product* plist, int psize, int sn)
 {
 	int i, flag = 1;
 	float tp = 0;
 	char YN;//Yes and No to approve or cancel
 	//puts("Please enter the customer's id: ");
+	getchar();
 	for (i = 0; i < *size; i++)
 	{
 		if (Allorders[i].serial == sn)
@@ -259,24 +262,28 @@ float ChangeStatus(orders* Allorders, int* size, int sn)
 				if (YN == 'Y' || YN == 'y')
 				{
 					Allorders[i].status = 'Y';
+					tp = Allorders[i].tp;
 					flag = 0;
 				}
 				else if (YN == 'N' || YN == 'n')
 				{
 					Allorders[i].status = 'N';
+					UpdateStock(plist, psize, Allorders[i]);
+					tp = 0;
 					flag = 0;
 				}
 				else
 					printf("wrong input, try again\n");
 			} while (flag);
-			orderHistory(Allorders[i].id, Allorders, Allorders[i].size, sn);
+			orderHistory(Allorders[i]);
+			
 			Allorders = Remove_Order(Allorders, size, sn);
 			i = *size;//exit the loop
 		}
 	}
 	if (flag)
 		printf("Order can't be found\n");
-
+	return tp;
 }
 
 //status should get if the order is approved or not 
@@ -286,14 +293,13 @@ float ChangeStatus(orders* Allorders, int* size, int sn)
 /*----> The user's orders history*/
 //sn is the serial number of the order 
 //sn is the serial number of the order 
-void orderHistory(int id, ProductFile* order, int items, int sn)
+void orderHistory(orders o)
 {
 	FILE* personalHistory;
 	FILE* ManagerHistory;
 	char filename[50];
 	int i;
-	float tp = 0;
-	sprintf(filename, "%d.txt", id);
+	sprintf(filename, "%d.txt", o.id);
 	personalHistory = fopen(filename, "a");
 	if (!personalHistory)
 	{
@@ -306,27 +312,85 @@ void orderHistory(int id, ProductFile* order, int items, int sn)
 		puts("Open file have failed");
 		exit(1);
 	}
-
-	fprintf(personalHistory, ": Seiral: Amount:,Price:\n");
-	fprintf(ManagerHistory, "ORDER:  %d\n", sn);
-	fprintf(ManagerHistory, "Pro:  Ser:  Amo:  Price:\n");
-	for (i = 0; i < items; i++)
-	{
-		fprintf(personalHistory, "%s,%d,%d,%.3f\n", order[i].name, order[i].sn, order[i].amount, order[i].price);
-		tp += order[i].price;
-		fprintf(ManagerHistory, "%s  %d  %d  %.3f\n", order[i].name, order[i].sn, order[i].amount, order[i].price);
+	{//print into personal history
+		fprintf(personalHistory, "ORDER NUMBER:  %d\n", o.serial);
+		fprintf(personalHistory, "Client's name:  %s\n", o.username);
+		fprintf(personalHistory, "Client's ID:  %d\n", o.id);
+		if (o.status == 'Y')
+			fprintf(personalHistory, "Order status: Approved\n");
+		else //if (o.status == 'N')
+			fprintf(personalHistory, "Order status: Denied\n");
+		fprintf(personalHistory, "Serial number - Product - Amount - Price\n");
+		for (i = 0; i < o.size; i++)
+		{
+			fprintf(personalHistory, "%d - %s - %d - %.2f\n", o.items->sn, o.items->name, o.items->amount, o.items->price);
+		}
+		fprintf(personalHistory, "Total:  %.2f\n\n", o.tp);
 	}
-	fprintf(personalHistory, "Total:,%f\n\n", tp);
-	fprintf(ManagerHistory, "Total:  %.4f\n\n", tp);
+	{//print into manager history
+		fprintf(ManagerHistory, "ORDER NUMBER:  %d\n", o.serial);
+		fprintf(ManagerHistory, "Client's name:  %s\n", o.username);
+		fprintf(ManagerHistory, "Client's ID:  %d\n", o.id);
+		if (o.status == 'Y')
+			fprintf(ManagerHistory, "Order status: Approved\n");
+		else //if (o.status == 'N')
+			fprintf(ManagerHistory, "Order status: Denied\n");
+		fprintf(ManagerHistory, "Serial number - Product - Amount - Price\n");
+		for (i = 0; i < o.size; i++)
+		{
+			fprintf(ManagerHistory, "%d - %s - %d - %.2f\n", o.items->sn, o.items->name, o.items->amount, o.items->price);
+		}
+		fprintf(ManagerHistory, "Total:  %.2f\n\n", o.tp); 
+	}
 	fclose(personalHistory);
 	fclose(ManagerHistory);
 }
 
-void ViewOrder()
+void ViewAllOrders()
 {
 	FILE* fp;
 	char temp = { 0 };
 	fp = fopen("HistoryOfAllOrders.txt", "r");
+	if (!fp)
+	{
+		puts("Can't open file");
+		exit(1);
+	}
+	temp = fgetc(fp);
+	if (temp == EOF)
+		printf("There is no history.\n");
+	else
+	{
+		printf("%c", temp);
+		while (temp != EOF)
+		{
+			temp = fgetc(fp);
+			printf("%c", temp);
+		}
+	}
+	fclose(fp);
+}
+
+void UpdateStock(Product* plist, int psize, orders o)
+{
+	for (int i = 0; i < o.size; i++)
+		for (int j = 0; j < psize; j++)
+		{
+			if (o.items[i].sn == plist[j].sn)
+			{
+				plist[j].quantity += o.items[i].amount;
+				j = psize;//jump to the next product
+			}
+		}
+}
+
+void ViewPersonalOrders(int id)
+{
+	FILE* fp;
+	char temp = { 0 };
+	char filename[50];
+	sprintf(filename, "%d.txt", id);
+	fp = fopen(filename, "r");
 	if (!fp)
 	{
 		puts("Can't open file");

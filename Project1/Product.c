@@ -1,4 +1,5 @@
 #include "Product.h"
+#include "Orders.h"
 
 //creating empty product (used in some cases as an error object)
 Product Empty_Product()
