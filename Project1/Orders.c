@@ -389,4 +389,3 @@ int Get_New_Order_SN()
 	sn--;
 	return sn;
 }
-

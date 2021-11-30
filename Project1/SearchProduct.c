@@ -85,7 +85,7 @@ void Low_to_high(Product* list, int size)
 
     for (i = 0; i < size - 1; i++)
     {
-        for (j = 0; i < size - 1; j++)
+        for (j = 0; j < size - 1; j++)
         {
             if (list[j].price > list[j + 1].price)
             {

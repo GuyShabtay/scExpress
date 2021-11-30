@@ -2,9 +2,9 @@
 
 int main()
 {
-	FILE* fr;
+	/*FILE* fr;
 	fr = fopen("Rating_Vars.csv", "w");
-	fclose(fr);
+	fclose(fr);*/
 	//mainMenu();
 	return 0;
 }
