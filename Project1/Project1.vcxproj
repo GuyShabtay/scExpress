@@ -20,9 +20,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cart.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="Orders.h" />
+    <ClInclude Include="Product.h" />
+    <ClInclude Include="Register.h" />
+    <ClInclude Include="SearchProduct.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cart.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="menu.c" />
+    <ClCompile Include="Orders.c" />
+    <ClCompile Include="Product.c" />
+    <ClCompile Include="Register.c" />
+    <ClCompile Include="SearchProduct.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
