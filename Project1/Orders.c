@@ -238,7 +238,7 @@ void PrintfProfit(int* pTotalPrice)
 
 }
 
-void ChangeStatus(orders* Allorders, int* size, int sn)
+float ChangeStatus(orders* Allorders, int* size, int sn)
 {
 	int i, flag = 1;
 	float tp = 0;
