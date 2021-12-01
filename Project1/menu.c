@@ -155,7 +155,6 @@ void ManagerLoop(float* profit, Manager m)
             break;//end of this iteration
         case 2:
             Searches(products, products_size);
-
             break;
         case 3:
             printf("Enter serial number: ");
@@ -404,14 +403,22 @@ void Searches(Product* products, int size)
             printf("Enter name of product: ");
             getchar();
             gets(name);
-            Name_search(products, size, name);
+            if ((Name_search(products, size, name)) == 0)
+            {
+                printf("this product does not exist.");
+                break;
+            }
             flag = 0;
         }
         else if (option == 2)
         {
             printf("Enter serial number of product: ");
             scanf("%d", &sn);
-            Serial_num_search(products, size, sn);
+            if (Serial_num_search(products, size, sn) == 0)
+            {
+                printf("this serial number does not exist.");
+                break;
+            }
             flag = 0;
         }
         else

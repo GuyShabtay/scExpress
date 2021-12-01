@@ -186,10 +186,9 @@ void ActionsOnClient(Client* c, int clients_size)
     int flag = 0;
     char userName[50];
     int id, password, index = -1;
-    printf("Please enter client's details: ");
-    printf("Name: ");
+    printf("Please enter client's details: \n");
     do {
-        printf("User Name: ");
+        printf("Name: ");
         getchar();
         gets(userName);
         printf("Id: ");
@@ -216,14 +215,18 @@ void ActionsOnClient(Client* c, int clients_size)
         switch (option)
         {//act accordingly:
         case 1:
-            c[index].status = 'n';               //activate the methods that resposible for it
+            c[index].status = 'n'; 
+            printf("This user is now blocked.");
+            run = 0;
             break;//end of this iteration
         case 2:
-            c[index].status = 'y';               //activate the methods that resposible for it
+            c[index].status = 'y';  
+            printf("This user is now unblocked.");
+            run = 0;
             break;
         case 3:
             run = 0; //we want to stop running.
-            printf("The system closed successfully\n");
+            //printf("The system closed successfully\n");
             break;
         default: printf("Wrong option. Please try again!\n"); //not a supported option
         }//end switch

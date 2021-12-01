@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void Name_search(Product* list, int size, char* name)
+int Name_search(Product* list, int size, char* name)
 {
     int i, x = 0;
     if (name == NULL)
@@ -23,28 +23,35 @@ void Name_search(Product* list, int size, char* name)
     }
     if (x == 0)
     {
-        printf("the product not exist\n");
+        printf("the product does not exists\n");
+        return 0;
     }
-    return 0;
+    return 1;
 }
 
-void Serial_num_search(Product* list, int size, int num)
+int Serial_num_search(Product* list, int size, int num)
 {
-    int i;
+    int i,flag=0;
     if (num == 0)
     {
-        printf("EROR\n");
+        printf("ERROR\n");
     }
 
     for (i = 0; i < size; i++)
     {
         if (list[i].sn == num)
         {
-            printf("\n");
+            //printf("\n");
             Print_Product(list[i]);
             printf("\n");
+            flag = 1;
+            break;
         }
     }
+    if (flag == 0)
+        return 0;
+    else
+        return 1;
 }
 
 //printing the average rating
